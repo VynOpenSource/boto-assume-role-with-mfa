@@ -1,0 +1,56 @@
+name: Python package
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: [3.6, 3.7, 3.8, 3.9]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install Tox and any other packages
+        run: pip install tox poetry
+      - name: Test with Tox
+        # Run tox using the version of Python in `PATH`
+        run: tox -e py
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Install Tox and any other packages
+        run: pip install tox poetry
+      - name: Lint with Tox
+        run: tox -e lint
+  black:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Install Tox and any other packages
+        run: pip install tox poetry
+      - name: Black with Tox
+        run: tox -e black
+  mypy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Install Tox and any other packages
+        run: pip install tox poetry
+      - name: Type check with Tox
+        run: tox -e mypy
