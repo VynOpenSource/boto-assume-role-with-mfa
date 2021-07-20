@@ -1,7 +1,7 @@
 """
 Implementation files for assuming roles using MFA session caching
 """
-
+import abc
 import datetime
 import logging
 from typing import Optional, Tuple
@@ -115,6 +115,57 @@ class CachedMfaSessionFactory:
 
 
 class SessionProvider:
+    """
+    Interface for session providers
+    """
+
+    @property
+    @abc.abstractmethod
+    def temporary_credentials(self) -> dict:
+        """
+        :return: the credentials in use by the base session
+        """
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def assume_role_credentials(
+        self, *, role_arn: str, region_name: str, session_name: str
+    ) -> dict:
+        """
+        Assume a role using the underlying session and return the credentials
+
+        :param role_arn: the role to assume
+        :param region_name: the region you will use
+        :param session_name: a session name
+
+        :return: the credentials of the new session
+        """
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def assume_role_session(
+        self, *, role_arn: str, region_name: str, session_name: str
+    ) -> Session:
+        """
+        Assume a role using the underlying session and return a new session
+
+        :param role_arn: the role to assume
+        :param region_name: the region you will use
+        :param session_name: a session name
+
+        :return: the new session
+        """
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def get_user(self) -> str:
+        """
+        :return: the user name of the user who owns the base session
+        """
+        raise NotImplementedError
+
+
+class MFASessionProvider(SessionProvider):
     """
     Uses a base session to provide assume role credentials with cached MFA
     """
@@ -231,4 +282,4 @@ class SessionProvider:
             sts_client=session.client("sts"), session_cache=session_cache
         )
 
-        return SessionProvider(session_data=session_factory.get_session_token())
+        return MFASessionProvider(session_data=session_factory.get_session_token())
