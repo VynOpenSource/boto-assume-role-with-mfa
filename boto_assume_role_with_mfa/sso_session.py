@@ -48,7 +48,7 @@ class SSOSessionProvider(SessionProvider):
         )
 
     def assume_role_credentials(
-            self, *, role_arn: str, region_name: str, session_name: str
+        self, *, role_arn: str, region_name: str, session_name: str
     ) -> dict:
         """
         Assume a role using the SSO session and return a new session
