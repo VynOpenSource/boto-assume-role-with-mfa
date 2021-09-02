@@ -72,7 +72,9 @@ class SSOSessionProvider(SessionProvider):
 
     def _get_any_role(self) -> ARN:
         for role in list_available_roles(
-            sso_region=self._sso_region, start_url=self._start_url
+            sso_region=self._sso_region,
+            start_url=self._start_url,
+            login=True,
         ):
             return ARN(f"arn:aws:iam::{role[0]}:role/{role[2]}")
         raise Exception("No accessible roles found")
