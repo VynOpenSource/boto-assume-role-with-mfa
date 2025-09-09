@@ -253,8 +253,8 @@ class MFASessionProvider(SessionProvider):
         *,
         aws_access_key_id: str,
         aws_secret_access_key: str,
-        aws_session_token: str = None,
-        region_name: str = None,
+        aws_session_token: Optional[str] = None,
+        region_name: Optional[str] = None,
     ) -> Session:
         session_properties = {
             "aws_access_key_id": aws_access_key_id,

@@ -13,8 +13,6 @@ from boto_assume_role_with_mfa.arn import ARN
 class SSOSessionError(Exception):
     """Custom exception for SSO session errors"""
 
-    pass
-
 
 class SSOSessionProvider(SessionProvider):
     """
