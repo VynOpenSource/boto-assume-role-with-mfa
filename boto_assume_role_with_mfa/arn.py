@@ -1,6 +1,7 @@
 """
 AWS ARN parser
 """
+
 from typing import List, Tuple, Optional
 
 
