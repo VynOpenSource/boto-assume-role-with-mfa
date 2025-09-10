@@ -1,11 +1,17 @@
 """
 Implementation files for assuming roles using SSO session
 """
+
 from aws_sso_lib import list_available_roles, get_boto3_session
 from boto3 import Session
 
 from boto_assume_role_with_mfa import SessionProvider
 from boto_assume_role_with_mfa.arn import ARN
+
+
+# define a custom exception
+class SSOSessionError(Exception):
+    """Custom exception for SSO session errors"""
 
 
 class SSOSessionProvider(SessionProvider):
@@ -77,7 +83,7 @@ class SSOSessionProvider(SessionProvider):
             login=True,
         ):
             return ARN(f"arn:aws:iam::{role[0]}:role/{role[2]}")
-        raise Exception("No accessible roles found")
+        raise SSOSessionError("No accessible roles found")
 
     def get_user(self) -> str:
         """

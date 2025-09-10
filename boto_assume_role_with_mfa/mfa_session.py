@@ -1,6 +1,7 @@
 """
 Implementation files for assuming roles using MFA session caching
 """
+
 import abc
 import datetime
 import logging
@@ -15,7 +16,7 @@ from dateutil.parser import parse
 
 
 class SessionCache:
-    """ This is an internal API not intended for public use """
+    """This is an internal API not intended for public use"""
 
     logger = logging.getLogger(__name__)
 
@@ -67,14 +68,14 @@ class SessionCache:
 
 
 def _get_account_and_user(*, sts_client: BaseClient) -> Tuple[str, str]:
-    """ This is an internal API not intended for public use """
+    """This is an internal API not intended for public use"""
     identity = sts_client.get_caller_identity()
     arn = identity["Arn"]
     return identity["Account"], arn.split("/")[-1]
 
 
 class CachedMfaSessionFactory:
-    """ This is an internal API not intended for public use """
+    """This is an internal API not intended for public use"""
 
     # pylint: disable=too-few-public-methods
     SESSION_KEY = "temporary_session"
@@ -252,8 +253,8 @@ class MFASessionProvider(SessionProvider):
         *,
         aws_access_key_id: str,
         aws_secret_access_key: str,
-        aws_session_token: str = None,
-        region_name: str = None,
+        aws_session_token: Optional[str] = None,
+        region_name: Optional[str] = None,
     ) -> Session:
         session_properties = {
             "aws_access_key_id": aws_access_key_id,
