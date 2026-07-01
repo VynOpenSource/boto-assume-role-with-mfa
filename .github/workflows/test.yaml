@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+        python: ["3.11", "3.12", "3.13", "3.14"]
     steps:
       - uses: actions/checkout@v5
       - name: Setup Python
@@ -25,7 +25,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v6
         with:
-          python-version: 3.9
+          python-version: 3.11
       - name: Install Tox and any other packages
         run: pip install tox poetry
       - name: Lint with Tox
@@ -37,7 +37,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v6
         with:
-          python-version: 3.9
+          python-version: 3.11
       - name: Install Tox and any other packages
         run: pip install tox poetry
       - name: Black with Tox
@@ -49,7 +49,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v6
         with:
-          python-version: 3.9
+          python-version: 3.11
       - name: Install Tox and any other packages
         run: pip install tox poetry
       - name: Type check with Tox
